@@ -18,17 +18,21 @@ app.get("/echo/:id", (req, res) => {
     res.send(obj);
 });
 
+let list = [1, 2, 3]
+
+app.get("/sum", (req, res) => {
+    res.send(list)
+})
+
+app.post("/sum", (req, res) => {
+    let sum = 0
+    console.log(req.body)
+    req.body.forEach(number => {
+        sum =+ number
+    });
+
+    console.log(sum)
+    res.send(sum)
+})
+
 app.listen(port, () => console.log("Server is listening port " + port + "!"));
-
-
-/*
-const http = require("http")
-
-console.log("Server is running...")
-
-http.createServer(function(req, res) {
-    res.write("Hello World!");
-    res.end();
-    console.log("Browser has reached us!")
-}).listen(3000);
-*/
