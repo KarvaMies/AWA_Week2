@@ -1,16 +1,15 @@
-let hello = {msg: "Hello world"}
-
 const express = require("express");
-const os = require("os")
 const app = express();
 const port = 3000;
+
+app.use(express.json());
 
 app.get("/", (req, res) => {
     res.send("<h1>Hello World!!</h1>");
 });
 
 app.get("/hello", (req, res) => {
-    res.json(hello)
+    res.json({msg: "Hello world"})
 })
 
 app.get("/echo/:id", (req, res) => {
@@ -18,21 +17,21 @@ app.get("/echo/:id", (req, res) => {
     res.send(obj);
 });
 
-let list = [1, 2, 3]
-
 app.get("/sum", (req, res) => {
-    res.send(list)
+    res.send([1, 2, 3])
 })
 
 app.post("/sum", (req, res) => {
-    let sum = 0
-    console.log(req.body)
-    req.body.forEach(number => {
-        sum =+ number
-    });
+    const numbers = req.body.numbers;
+    
+    if (!Array.isArray(numbers)) {
+        res.status(400).json({ error: "Invalid input. 'numbers' must be an array."})
+        return;
+    }
 
-    console.log(sum)
-    res.send(sum)
+    const sum = numbers.reduce((acc, curr) => acc + curr, 0);
+
+    res.json({ sum: sum});
 })
 
 app.listen(port, () => console.log("Server is listening port " + port + "!"));
