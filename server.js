@@ -2,7 +2,20 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
+app.use(express.static("static"));
 app.use(express.json());
+
+let wordList =[];
+
+app.get("/list", (req, res) => {
+    res.json({ list: wordList });
+});
+
+app.post("/list", (req, res) => {
+    const text = req.body.text;
+    wordList.push(text);
+    res.json({ list: wordList });
+})
 
 app.get("/", (req, res) => {
     res.send("<h1>Hello World!!</h1>");
